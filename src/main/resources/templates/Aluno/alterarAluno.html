@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserir Aluno - Sistema Escolar</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #b39ddb !important; /* lilás */
+        }
+
+        .dropdown-menu {
+            padding: 0.5rem;
+            border-radius: 10px;
+        }
+
+        #login {
+            background-color: #f4f6f9;
+            padding: 40px 0;
+        }
+
+        #login-box {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .text-info {
+            color: #9575cd !important; /* lilás mais escuro */
+        }
+
+        footer {
+            font-weight: bold;
+            background: #b39ddb; /* lilás */
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: white !important;
+        }
+
+        .dropdown-item i {
+            margin-right: 9px;
+        }
+
+        .dropdown-toggle::after {
+            margin-left: 6px;
+        }
+
+        .form-control {
+            margin-bottom: 15px;
+        }
+
+        .btn-info {
+            background-color: #9575cd;
+            border-color: #9575cd;
+        }
+
+        .btn-info:hover, .btn-info:focus {
+            background-color: #7e57c2;
+            border-color: #7e57c2;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand" href="#">Sistema Escolar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#textoNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="textoNavbar">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="@{/dashboard}"><i class="fa fa-home"></i> Home</a>
+                </li>
+
+                <!-- Aluno -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="fa fa-user-graduate"></i> Aluno</a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="@{/aluno/editar}"><i class="fa fa-pen"></i> Editar</a></li>
+                        <li><a class="dropdown-item" href="@{/aluno/deletar}"><i class="fa fa-trash"></i> Deletar</a></li>
+                        <li><a class="dropdown-item" th:href="@{/aluno/inserir}"><i class="fa fa-plus"></i> Inserir</a></li>
+                        <li><a class="dropdown-item" href="@{/aluno/listar}"><i class="fa fa-list"></i> Listar</a></li>
+                    </ul>
+                </li>
+
+                <!-- Professor -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="fa fa-chalkboard-teacher"></i> Professor</a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="@{/professor/editar}"><i class="fa fa-pen"></i> Editar</a></li>
+                        <li><a class="dropdown-item" href="@{/professor/deletar}"><i class="fa fa-trash"></i> Deletar</a></li>
+                        <li><a class="dropdown-item" href="@{/professor/inserir}"><i class="fa fa-plus"></i> Inserir</a></li>
+                        <li><a class="dropdown-item" href="@{/professor/listar}"><i class="fa fa-list"></i> Listar</a></li>
+                    </ul>
+                </li>
+
+                <!-- Turma -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="fa fa-users"></i> Turma</a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="@{/turma/editar}"><i class="fa fa-pen"></i> Editar</a></li>
+                        <li><a class="dropdown-item" href="@{/turma/deletar}"><i class="fa fa-trash"></i> Deletar</a></li>
+                        <li><a class="dropdown-item" href="@{/turma/inserir}"><i class="fa fa-plus"></i> Inserir</a></li>
+                        <li><a class="dropdown-item" href="@{/turma/listar}"><i class="fa fa-list"></i> Listar</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div id="login">
+    <div class="container">
+        <div id="login-row" class="row justify-content-center align-items-center">
+            <div id="login-column" class="col-md-8 col-lg-6">
+                <div id="login-box" class="col-md-12">
+                    <h3 class="text-center text-info">Alterar Aluno</h3>
+
+                    <form id="cadastro-form" class="form" th:object="${aluno}" th:action="@{/aluno/alterar}" method="post">
+                        <div class="alert alert-danger" role="alert" th:if="${param.error}">
+                            <strong th:text="${mensagem}"></strong>
+                        </div>
+                        <input type="hidden" th:field="*{id}"></input>
+
+                        <div class="form-group">
+                            <label for="nome" class="text-info">Nome:</label>
+                            <input type="text" class="form-control" id="nome" th:field="*{nome}" placeholder="Digite o nome completo" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="text-info">email:</label>
+                            <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Digite o seu email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cpf" class="text-info">CPF:</label>
+                            <input type="text" maxlength="11" pattern="[0-9]{11}" class="form-control" id="cpf" name="cpf" th:field="*{cpf}" placeholder="Digite o CPF (apenas números)" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="matricula" class="text-info">Matricula:</label>
+                            <input type="text"  class="form-control" id="matricula" name="matricula" th:field="*{matricula}" readonly="readonly" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="curso" class="text-info">Selecione o curso:</label>
+                            <select id="curso" class="form-control" name="curso" th:field="*{curso}">
+                                <option th:each="curso : ${T(com.projeto.ads.Enum.Curso).values()}"
+                                        th:value="${curso}"
+                                        th:text="${curso}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status" class="text-info">Selecione o status:</label>
+                            <select id="status" class="form-control" name="status" th:field="*{status}">
+                                <option th:each="status : ${T(com.projeto.ads.Enum.Status).values()}"
+                                        th:value="${status}"
+                                        th:text="${status}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="turno" class="text-info">Selecione o turno:</label>
+                            <select id="turno" class="form-control" name="turno" th:field="*{turno}">
+                                <option th:value="M" th:text="Matutino"></option>
+                                <option th:value="N" th:text="Noturno"></option>
+                            </select>
+                        </div>
+
+                        <div class="form-group text-center mt-4">
+                            <button type="submit" class="btn btn-info btn-md">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="text-center py-4 bg-light mt-5">
+    <p class="mb-0 text-muted">2025 &copy; Senac - Todos os direitos reservados.</p>
+</footer>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
